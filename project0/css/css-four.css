@@ -1,0 +1,15 @@
+.img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+p {
+    color: #893421;
+    display: block;   
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    width: 20%;
+}

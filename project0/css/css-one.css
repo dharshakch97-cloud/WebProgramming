@@ -2,9 +2,8 @@
         background-color: rgb(170, 199, 156);
         font-family: Arial;
         margin: 60;
-        }
+    }
 
-    
     .topnav a {
         float: left;
         color: #3b74d1;
@@ -47,19 +46,22 @@
         margin-top: 10px;
     }
 
-    /* Image Content */
-    img {
-        padding-left: 0px;
-        text-align: left;
-    }
     table {
         text-align : center;
         padding-left : 50px;
     }
+
+    th {
+        background-color: #1abc9c;
+        font-size: 20px;
+        font-weight:bold;    
+    }
+
     td {
         border : 2px solid #1abc9c;
         font-family: 'Helvetica', Times, serif;    
     }
+    
     h3 {
         height: 30px;
         width: 1125px;
@@ -68,15 +70,4 @@
         background: #1abc9c;
         border-radius: 10px;
     }
-    h2 {
-        padding-left: 50px;
-    }
-    th {
-        background-color: #1abc9c;
-        font-size: 20px;
-        font-weight:bold;    
-    }
 
-    p {
-        padding-left: 50px;
-    }

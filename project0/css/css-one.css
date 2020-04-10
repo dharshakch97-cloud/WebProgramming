@@ -43,11 +43,12 @@
     }
 
     /* Page Content */
-    .content {
+    #content {
         padding-left:50px;
     }
 
-    .experience {
+    #experience {
+        background-color: blue;
         padding-left:50px;
         margin-top: 10px;
     }
@@ -77,3 +78,9 @@
         border-radius: 10px;
     }
 
+    #uls {
+        background-color: blue;
+        padding-left: 50px;
+        height: 55px;
+        width: 250px;
+    }

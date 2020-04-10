@@ -2,26 +2,26 @@
         background-color: rgb(156, 199, 139);
         font-family: Arial;
         margin: 60;
-    }   
+    }  
 
-    .topnav {
+    ul {
         list-style-type: none;
         margin: 0;
         padding-left: 50px;
         overflow: hidden;
     }
       
-    .topnav-li {
+    li {
         float: left;
     }
-      
-    .topnav-li a {
+          
+    li a {
         display: inline-flex;
         padding: 10px;
         background-color: #1abc9c;
         text-decoration: none;
     }
-
+    
     li a:hover {
         background-color: #3b74d1;
         border: 2px solid #3b74d1;
@@ -29,7 +29,6 @@
         text-decoration: none;
         color: black;
     }
-    
     .header {
         margin-left: 50px;
         text-align: left;
@@ -42,38 +41,23 @@
         border-radius: 10px;
     }
 
-    /* Page Content */
-    .content {
-        padding-left:50px;
+    p {
+        padding-left: 50px;
     }
 
-    .experience {
-        padding-left:50px;
-        margin-top: 10px;
+    .container {
+        display: flex;
+        flex-wrap: wrap;
     }
 
-    table {
-        text-align : center;
-        padding-left : 50px;
-    }
-
-    th {
-        background-color: #1abc9c;
+    .container > div {
+        background-color: #3b74d1;
         font-size: 20px;
-        font-weight:bold;    
+        margin: 20px;
+        padding: 20px;
+        width: 200px;
     }
 
-    td {
-        border : 2px solid #1abc9c;
-        font-family: 'Helvetica', Times, serif;    
+    .padd {
+        padding-left: 50px;
     }
-    
-    h3 {
-        height: 30px;
-        width: 1125px;
-        margin-left: 50px;
-        padding-left: 100px;
-        background: #1abc9c;
-        border-radius: 10px;
-    }
-

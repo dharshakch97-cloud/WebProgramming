@@ -1,29 +1,61 @@
     body {
-        background-color: rgb(170, 199, 156);
         font-family: Arial;
         margin: 60;
         }
 
-    
-    .topnav a {
-        float: left;
-        color: #3b74d1;
-        text-align: center;
-        margin-left: 50px;
-        padding-left:50px;
-        padding: 14px 16px;
-        text-decoration: none;
-        font-size: 17px;
-        border: 2px solid #1abc9c;
-        background-color: #1abc9c;
+    @media (min-width: 500px) {
+        body {
+            background-color: rgb(199, 120, 120);
+        }
+
+        p::before {
+            content: "";
+        }
+
+        p::after {
+            content: "actual content";
+        }
     }
-          
-    .topnav a:hover {
+
+    @media (max-width: 499px) {
+        body {
+            background-color: rgb(142, 142, 202);
+        }
+
+        p::before {
+            content: "";
+        }
+
+        p::after {
+            content: "changed content";
+        }
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding-left: 50px;
+        overflow: hidden;
+    }
+      
+    li {
+        float: left;
+    }
+      
+    li a {
+        display: inline-flex;
+        padding: 10px;
+        background-color: #1abc9c;
+        text-decoration: none;
+    }
+
+    li a:hover {
         background-color: #3b74d1;
         border: 2px solid #3b74d1;
-        padding-left:50px;
+        padding-left: 50px;
+        text-decoration: none;
         color: black;
-    }    
+    }
 
     .header {
         margin-left: 50px;

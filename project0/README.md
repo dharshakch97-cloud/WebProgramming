@@ -37,3 +37,4 @@ Some of the CSS properties I've used in this project are -
 So, I make use of different HTML tags and CSS styles & properties to complete this project 0 assignment. 
 Now, I'm more comfortable with HTML and CSS for designing webpages and also learned to use SCSS for complex style sheets.
               
+Recored screencast for this project 0 - https://youtu.be/1_V3B1XEhJE

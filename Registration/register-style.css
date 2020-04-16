@@ -13,12 +13,14 @@ body {
     background-color: white;
     justify-content: center;
     align-items: center;
-    /* display: inline-block; */
+    display: inline-block;
+    margin: auto;
+    position: absolute;
   }
   
   /* Full-width input fields */
   input[type=text], input[type=password] {
-    width: 50%;
+    width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;
     display: inline-block;
@@ -56,10 +58,4 @@ body {
   /* Add a blue text color to links */
   a {
     color: dodgerblue;
-  }
-  
-  /* Set a grey background color and center the text of the "sign in" section */
-  .signin {
-    background-color: #f1f1f1;
-    text-align: center;
   }

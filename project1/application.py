@@ -4,6 +4,8 @@ from flask import Flask, session, render_template, request
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+import models
+from models import Base, Users
 
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
 # Check for environment variable
@@ -18,7 +20,7 @@ Session(app)
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
-
+Base.query = db.query_property()
 
 @app.route("/")
 def landpage():
@@ -37,6 +39,11 @@ def show_result():
     if request.method=='POST':
         user_name=request.form['username']
         user_email=request.form['email']
+        user_password=request.form['psw']
+        new_user = Users(username=user_name, email=user_email, password=user_password)
+        db.add(new_user)
+        db.commit()
+        db.close()
     return render_template("result.html", user_email=user_email, user_name=user_name)
     
 if __name__ == "__main__":

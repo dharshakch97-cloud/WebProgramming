@@ -30,6 +30,11 @@ def landpage():
 def login_page():
     return render_template("login.html")
 
+@app.route("/admin")
+def admin_page():
+    users = db.query(Users)
+    return render_template("admin-users.html", users=users)
+
 @app.route("/register")
 def register_page():
     return render_template("register.html")

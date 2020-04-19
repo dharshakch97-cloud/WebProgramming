@@ -73,8 +73,8 @@ body {
 	.siteDescription {
 		font-size: 1.5em;
 	}
-	.meetMeBtn,
-	.contactBtn {
+	.loginBtn,
+	.registerBtn {
 		font-size: 1em;
 	}
 }
@@ -87,8 +87,8 @@ body {
 	.siteDescription {
 		font-size: 1.2em;
 	}
-	.meetMeBtn,
-	.contactBtn {
+	.loginBtn,
+	.registerBtn {
 		font-size: 0.9em;
 	}
 }

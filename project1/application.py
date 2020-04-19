@@ -51,5 +51,18 @@ def show_result():
         db.close()
     return render_template("result.html", user_email=user_email, user_name=user_name)
     
+@app.route("/auth", methods=['POST'])
+def auth():
+    email = request.form['email']
+    password = request.form['password']
+
+    user = db.query(Users).filter_by(email=email)
+    if (user[0].email == email and user[0].password == password):
+        session["user_email"] = user[0].email
+        session["user_password"] = user[0].password
+        return render_template("userhome.html", user=user[0].username)
+    err_message = email + "is not a registered user!"
+    return render_template("register.html", err_message)
+
 if __name__ == "__main__":
     app.run(debug=True)

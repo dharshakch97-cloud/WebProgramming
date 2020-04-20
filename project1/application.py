@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, url_for, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -63,6 +63,11 @@ def auth():
         return render_template("userhome.html", user=user[0].username)
     err_message = email + "is not a registered user!"
     return render_template("register.html", err_message)
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("landpage"))
 
 if __name__ == "__main__":
     app.run(debug=True)

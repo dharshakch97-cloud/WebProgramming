@@ -1,7 +1,8 @@
 <html>
     <head>
         <title>{{ user }} home page</title>
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='userhome-style.css') }}"/>
+        <!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='userhome-style.css') }}"/> -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <style>
             .pstyle {
                 background: rgb(206, 92, 50);
@@ -11,18 +12,11 @@
         </style>
     </head>
     <body style="text-align: center;">
-        <nav>
-            <input type="checkbox" id="check">
-            <label for="check" class="checkbtn">
-                <i class="fas fa-bars"></i>
-            </label>
-            <label class="logo">My Books</label>
-            <ul>
-                <li><a href="">Home</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+              <img src="{{ url_for('static', filename='goodreads.jpeg') }}" width="90" height="50" class="d-inline-block align-top" alt="">
+            </a>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="/logout">Logout</a>
         </nav>
         </br></br>
         <p class="pstyle">Welcome {{ user }} to GoodReads!</p>

@@ -24,7 +24,10 @@ Base.query = db.query_property()
 
 @app.route("/")
 def landpage():
-    return render_template("landingpage.html")
+    if (request.method == 'GET'):
+        if session.get("user_name") is not None:
+            return render_template("userhome.html", user=session["user_name"])
+        return render_template("landingpage.html")
 
 @app.route("/login")
 def login_page():
@@ -46,11 +49,16 @@ def show_result():
         user_email=request.form['email']
         user_password=request.form['psw']
         new_user = Users(username=user_name, email=user_email, password=user_password)
-        db.add(new_user)
-        db.commit()
-        db.close()
-    return render_template("result.html", user_email=user_email, user_name=user_name)
-    
+        try:
+            db.add(new_user)
+            db.commit()
+            return render_template("result.html", user_email=user_email, user_name=user_name)
+        except:
+            text = "Account already exists! Please login with your account"
+            return render_template("login.html", text=text)
+    else:
+        return render_template("register.html")
+
 @app.route("/auth", methods=['POST'])
 def auth():
     email = request.form['email']
@@ -58,11 +66,9 @@ def auth():
 
     user = db.query(Users).filter_by(email=email)
     if (user[0].email == email and user[0].password == password):
-        session["user_email"] = user[0].email
-        session["user_password"] = user[0].password
+        session["user_name"] = user[0].username
         return render_template("userhome.html", user=user[0].username)
-    err_message = email + "is not a registered user!"
-    return render_template("register.html", err_message)
+    return render_template("login.html", text="email or password is incorrect")
 
 @app.route("/logout")
 def logout():

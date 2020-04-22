@@ -23,7 +23,7 @@ db = scoped_session(sessionmaker(bind=engine))
 Base.query = db.query_property()
 
 @app.route("/")
-defs landpage():
+def landpage():
     if (request.method == 'GET'):
         if session.get("user_name") is not None:
             return render_template("userhome.html", user=session["user_name"])

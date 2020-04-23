@@ -71,6 +71,11 @@ def auth():
         return render_template("userhome.html", user=user[0].username)
     return render_template("login.html", text="email or password is incorrect")
 
+
+@app.route("/bookpage")
+def bookpage():
+    return render_template("bookpage.html")
+    
 @app.route("/logout")
 def logout():
     session.clear()

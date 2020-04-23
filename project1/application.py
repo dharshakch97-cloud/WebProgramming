@@ -52,7 +52,8 @@ def show_result():
         try:
             db.add(new_user)
             db.commit()
-            return render_template("result.html", user_email=user_email, user_name=user_name)
+            session["user_name"] = user_name
+            return render_template("userhome.html", user=user_name)
         except:
             text = "Account already exists! Please login with your account"
             return render_template("login.html", text=text)

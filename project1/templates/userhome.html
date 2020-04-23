@@ -18,8 +18,8 @@
         <h1>Welcom To Goodreads!!</h1>
         <br><br><br>
         <p style="text-align: center;"> Welcome {{ user }}</p>
-        <div class="button">
-            <button formaction = "/logout" type="submit" class="btn btn-primary" style = "float:inline-end">Logout</button>
-        </div>
+        <form class="button" action="/logout">
+            <button type="submit" class="btn btn-primary" style = "float:inline-end">Logout</button>
+        </form>
     </body>
 </html>

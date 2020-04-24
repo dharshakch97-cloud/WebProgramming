@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <style>
+            table {
+                border:2px;
+                border-collapse: collapse;
+                /* background-color: black; */
+                padding:15px;
+            }
+            body {
+                background-color:teal;
+            }
+            th,td {
+                padding:10px;
+                color:white;
+            }
+            th{
+                background-color: paleturquoise;
+            }
+            a{
+                color:white;
+            }
+        </style>
+    </head>
+    <body style = "font-size: large;">
+    <h1 style = "text-align: center;">Results of search</h1><br>
+    <table class="table" style="width: 100%;">
+        <thead class="thead-dark">
+            <tr>
+                <th>id</th>
+                <th>isbn</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(0, length) %}
+              <tr>
+                  <th scope="row">{{  i+1 }}</th>
+                  <td><a href="#">{{ isbn[i] }}</a></td>
+                  <td><a href='#'>{{ title[i] }}</a></td>
+                  <td>{{ author[i] }}</td>
+                  <td>{{ year[i] }}</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </body>
+</html>

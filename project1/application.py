@@ -1,11 +1,12 @@
 import os
-
-from flask import Flask, session, render_template, request, url_for, redirect
+import requests
+from flask import Flask, session, render_template, request, url_for, redirect, json
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import models
 from models import Base, Users
+from bookmodel import Book
 
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
 # Check for environment variable
@@ -71,11 +72,33 @@ def auth():
         return render_template("userhome.html", user=user[0].username)
     return render_template("login.html", text="email or password is incorrect")
 
-
 @app.route("/bookpage")
 def bookpage():
     return render_template("bookpage.html")
-    
+
+@app.route("/<string:isbn>", methods = ["GET"])
+def get_book(isbn):
+    response = bookreads_api(isbn)
+    return render_template("bookpage.html", 
+                name=response["name"], author=response["author"], ISBN = response["isbn"], 
+                year=response["year"], rating=response["average_rating"], count=response["reviews_count"], 
+                image=response["img"])
+
+def bookreads_api(isbn):
+    query = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "GeJUHhlmNf7PYbzeKEnsuw", "isbns": isbn})
+    response = query.json()
+    response = response['books'][0]
+    query = db.query(Book).filter(Book.isbn.like(f'{isbn}'))
+    title=list()
+    author = list()
+    year = list()
+    for row in query:
+        response["name"] = row.title
+        response["author"] = row.author
+        response["year"] = row.year
+        response["img"] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
+        return response
+
 @app.route("/logout")
 def logout():
     session.clear()

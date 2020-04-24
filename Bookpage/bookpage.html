@@ -2,8 +2,6 @@
     <head>
         <title>Book page</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="style.css"/>
-        <!-- <script src="https://kit.fontawesome.com/958651474f.js" crossorigin="anonymous"></script> -->
         <style>
             * {
                 box-sizing: border-box;
@@ -61,6 +59,25 @@
                     border: 1px solid rgb(228, 146, 146);  
                 }
             }
+
+            .card {
+                border-radius: 10px;
+                border: 1px solid #ddd;
+                background: #ddd;
+                width: auto;
+            }
+
+            .cards {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-gap: 15px;
+                margin-top: 30px;
+            }
+
+            .container {
+                margin: 90px auto;
+                width: 40%;
+            }
         </style>
     </head>
     <body>
@@ -73,6 +90,17 @@
                 </form>
             </div>
         </div>
-        <h2 style="color:rgb(190, 142, 142); text-align: center;">Title of the book</h2>
+        <div class="container">
+            <div class="cards">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="goodreads.jpeg" alt="goodreads" width="150" height="100"/>
+                    </div>
+                    <div class="card-content">
+                        <p class="card__content__body">Goodreads</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

@@ -1,9 +1,9 @@
 <html>
     <head>
-        <title>Book page</title>
+        <title>{{ name }} page</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="style.css"/>
-        <!-- <script src="https://kit.fontawesome.com/958651474f.js" crossorigin="anonymous"></script> -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/958651474f.js" crossorigin="anonymous"></script>
         <style>
             * {
                 box-sizing: border-box;
@@ -61,6 +61,15 @@
                     border: 1px solid rgb(228, 146, 146);  
                 }
             }
+
+            .card {
+                width: 80%;
+                margin: 0 auto;
+                padding: 20px;
+                border-radius: 10px;
+                border: 1px solid #ddd;
+                background: #ddd;
+            }
         </style>
     </head>
     <body>
@@ -73,7 +82,32 @@
                 </form>
             </div>
         </div>
-        <h2 style="color:rgb(190, 142, 142); text-align: center;">Title of the book</h2>
-        <h3 style="color:rgb(190, 142, 142); text-align: center;">Author of the book</h3>
-    </body>
+        </br></br></br>
+        <div class="card mb-3 card" style="max-width: 540px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="{{ image }}" class="card-img" alt="{{ image }}">
+                </div>
+                <div class="col-md-8 card">
+                    <div class="card-body">
+                        <h5 class="card-title">Book Name: {{ name }}</h5>
+                        <p class="card-text">Author: {{ author }}</p>
+                        <p class="card-text">
+                            <small class="text-muted">ISBN: {{ ISBN }}</small>
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">Year of publication: {{ year }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div></br>
+        <div class="card bg-light mb-3" style="max-width: 18rem;">
+            <div class="card-header">More info..</div>
+            <div class="card-body">
+                <h5 class="card-title">Book rating: {{ rating }}</h5>
+                <p class="card-text">Total reviews: {{ count }}</p>
+            </div>
+        </div>
+	</body>
 </html>

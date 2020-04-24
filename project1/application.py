@@ -6,6 +6,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import models
 from models import Base, Users
+import bookmodel
+from bookmodel import *
 
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
 # Check for environment variable
@@ -69,6 +71,45 @@ def auth():
         session["user_name"] = user[0].username
         return render_template("userhome.html", user=user[0].username)
     return render_template("login.html", text="email or password is incorrect")
+
+#         return render_template("home.html",text = "No matches found")        
+@app.route("/search", methods=["GET","POST"])
+def search():
+    
+    if request.method == "POST":
+        word = request.form['searchbox']
+        choice = request.form['choice']
+        if choice == "isbn":
+            print(word)
+            
+            query = db.query(Book).filter(Book.isbn.like(f'%{word}%'))
+        elif choice == "title":
+            
+            query = db.query(Book).filter(Book.title.like(f'%{word}%'))
+        else:
+            
+            query = db.query(Book).filter(Book.author.like(f'%{word}%'))
+        
+        isbn = []
+        title=[]
+        author = []
+        year = []
+        for row in query:
+            isbn.append(row.isbn)
+            title.append(row.title)
+            author.append(row.author)
+            year.append(row.year)
+            
+        if len(isbn)==0:
+            return render_template("userhome.html",text = "No Matches Found")    
+        return render_template("books.html", isbn=isbn,title=title,author=author,year=year,length=len(isbn))
+        
+    elif request.method == "GET":
+        return render_template("landingpage.html")
+
+
+
+    
 
 @app.route("/logout")
 def logout():

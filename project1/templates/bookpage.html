@@ -92,12 +92,8 @@
                     <div class="card-body">
                         <h5 class="card-title">Book Name: {{ name }}</h5>
                         <p class="card-text">Author: {{ author }}</p>
-                        <p class="card-text">
-                            <small class="text-muted">ISBN: {{ ISBN }}</small>
-                        </p>
-                        <p class="card-text">
-                            <small class="text-muted">Year of publication: {{ year }}</small>
-                        </p>
+                        <p class="card-text text-muted">ISBN: {{ ISBN }}</p>
+                        <p class="card-text text-muted">Year of publication: {{ year }}</p>
                     </div>
                 </div>
             </div>
@@ -106,7 +102,7 @@
             <div class="card-header">More info..</div>
             <div class="card-body">
                 <h5 class="card-title">Book rating: {{ rating }}</h5>
-                <p class="card-text">Total reviews: {{ count }}</p>
+                <p class="card-text text-muted">Total reviews: {{ count }}</p>
             </div>
         </div>
 	</body>

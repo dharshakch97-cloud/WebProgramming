@@ -70,39 +70,43 @@ def auth():
     if (user[0].email == email and user[0].password == password):
         session["user_name"] = user[0].username
         return render_template("userhome.html", user=user[0].username)
+        # return render_template("userhome.html", user=session["user_name"])
     return render_template("login.html", text="email or password is incorrect")
 
 #         return render_template("home.html",text = "No matches found")        
 @app.route("/search", methods=["GET","POST"])
 def search():
+    text = ""
     
     if request.method == "POST":
         word = request.form['searchbox']
         choice = request.form['choice']
-        if choice == "isbn":
-            print(word)
-            
-            query = db.query(Book).filter(Book.isbn.like(f'%{word}%'))
-        elif choice == "title":
-            
-            query = db.query(Book).filter(Book.title.like(f'%{word}%'))
-        else:
-            
-            query = db.query(Book).filter(Book.author.like(f'%{word}%'))
+        if len(word) > 0:
+            if choice == "isbn":
+                print(word)
+                query = db.query(Book).filter(Book.isbn.like(f'%{word}%'))
+                print(query)
+            elif choice == "title":
+                query = db.query(Book).filter(Book.title.like(f'%{word}%'))
+            else:
+                query = db.query(Book).filter(Book.author.like(f'%{word}%'))
         
-        isbn = []
-        title=[]
-        author = []
-        year = []
-        for row in query:
-            isbn.append(row.isbn)
-            title.append(row.title)
-            author.append(row.author)
-            year.append(row.year)
-            
-        if len(isbn)==0:
-            return render_template("userhome.html",text = "No Matches Found")    
-        return render_template("books.html", isbn=isbn,title=title,author=author,year=year,length=len(isbn))
+            isbn = []
+            title=[]
+            author = []
+            year = []
+            for row in query:
+                isbn.append(row.isbn)
+                title.append(row.title)
+                author.append(row.author)
+                year.append(row.year)
+
+        
+            if len(isbn)==0:
+                return render_template("userhome.html",text = "No Matches Found")    
+            return render_template("userhome.html", isbn=isbn,title=title,author=author,year=year,length=len(isbn))
+        else:
+            return render_template("userhome.html",text = "Please provide valid input")    
         
     elif request.method == "GET":
         return render_template("landingpage.html")

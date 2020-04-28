@@ -1,11 +1,13 @@
 import os
-
+import requests
 from flask import Flask, session, render_template, request, url_for, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import models
 from models import Base, Users
+from bookmodel import Book
+from ratingmodel import Review
 
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
 # Check for environment variable
@@ -75,19 +77,30 @@ def logout():
     session.clear()
     return redirect(url_for("landpage"))
 
-@app.route('/review',methods=['POST','GET'])
-def rev():
-    db.create_all()
-    if request.method=='POST':
-        info=Star(request.form['UserName'],request.form['Book_ID'],request.form['Rating'],request.form['Feedback'])
-        Rdata=Star.query.all()
-        db.session.add(info)
-        db.session.commit()
-        r=Star.query.filter_by(Book_ID=request.form['Book_ID']).all()
-        return render_template("Rating.html",comments=r, message="Thank you for the Reviewing!!")
-    else :              
-        return render_template("Rating.html")
+@app.route("/bookpage", methods =['GET', 'POST'])
+def bookpage():
+    if session.get("user_name") is None:
+        return redirect("/register")
 
+    isbn = "0380795272"
+    book  = db.query(Book).filter_by(isbn = isbn).first()
+    rating = db.query(Review).filter_by(title=book.title).all()
 
+    Uname = session.get("user_name")
+    if request.method == "POST":
+        title = book.title
+        rating1 = request.form.get("rate")
+        review = request.form.get("comment")
+        temp = Review(Uname,title,rating1,review)
+        try:
+            db.add(temp)
+            db.commit() 
+            ratin = db.query(Review).filter_by(title=book.title).all()
+            return render_template("review.html",data = book, name = Uname,rating = ratin)
+        except:
+            db.rollback()
+            return render_template("review.html", data = book, name = "User already given review", rating = rating)
+    else:
+        return render_template("review.html",data = book, name = Uname ,rating = rating)
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <title>{{ name }} page</title>
@@ -70,6 +71,59 @@
                 border: 1px solid #ddd;
                 background: #ddd;
             }
+            .rate {
+            float: left;
+            height: 40px;
+            padding: 0 10px;
+            align-content: center;
+            margin : auto auto auto 40%;
+        }
+        .rate:not(:checked) > input {
+            position:absolute;
+            top:-9999px;
+        }
+        .rate:not(:checked) > label {
+            float:right;
+            width:1em;
+            overflow:hidden;
+            white-space:nowrap;
+            cursor:pointer;
+            font-size:30px;
+            color:#ccc;
+        }
+        .rate:not(:checked) > label:before {
+            content: '★ ';
+        }
+        .rate > input:checked ~ label {
+            color: #ffc700;    
+        }
+        .rate:not(:checked) > label:hover,
+        .rate:not(:checked) > label:hover ~ label {
+            color: #deb217;  
+        }
+        .rate > input:checked + label:hover,
+        .rate > input:checked + label:hover ~ label,
+        .rate > input:checked ~ label:hover,
+        .rate > input:checked ~ label:hover ~ label,
+        .rate > label:hover ~ input:checked ~ label {
+            color: #c59b08;
+        }
+
+        .container {
+            width : 70%;
+        }
+
+        .table {
+            text-align: center;
+            margin: auto;
+            border: 3px solid black;
+            padding: 20px;
+        }
+
+        .review {
+            display: table;
+            margin: auto auto auto 40%;
+        }
         </style>
     </head>
     <body>
@@ -105,5 +159,6 @@
                 <p class="card-text text-muted">Total reviews: {{ count }}</p>
             </div>
         </div>
+        </br></br>
 	</body>
 </html>

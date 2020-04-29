@@ -121,7 +121,7 @@ def logout():
     session.clear()
     return redirect(url_for("landpage"))
     
-@app.route("/<string:isbn>", methods = ["GET"])
+@app.route("/book/<string:isbn>", methods = ["GET"])
 def get_book(isbn):
     response = bookreads_api(isbn)
     return render_template("bookpage.html", 

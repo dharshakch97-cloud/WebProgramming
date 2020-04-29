@@ -1,13 +1,20 @@
 import os
+<<<<<<< HEAD
 import requests
+=======
+
+>>>>>>> master
 from flask import Flask, session, render_template, request, url_for, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import models
 from models import Base, Users
+<<<<<<< HEAD
 from bookmodel import Book
 from ratingmodel import Review
+=======
+>>>>>>> master
 
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
 # Check for environment variable
@@ -77,6 +84,7 @@ def logout():
     session.clear()
     return redirect(url_for("landpage"))
 
+<<<<<<< HEAD
 @app.route("/bookpage", methods =['GET', 'POST'])
 def bookpage():
     if session.get("user_name") is None:
@@ -102,5 +110,7 @@ def bookpage():
     else:
         return render_template("review.html",data = book, name = Uname ,rating = rating)
 
+=======
+>>>>>>> master
 if __name__ == "__main__":
     app.run(debug=True)

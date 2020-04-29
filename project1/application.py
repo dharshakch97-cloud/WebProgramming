@@ -6,7 +6,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import models
 from models import Base, Users
+<<<<<<< HEAD
 from bookmodel import Book
+=======
+import bookmodel
+from bookmodel import *
+>>>>>>> 78cd9f9144f3de35f2691cb1301bcf8999d93082
 
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
 # Check for environment variable
@@ -113,8 +118,12 @@ def search():
 
 
 
+<<<<<<< HEAD
 
 
+=======
+    
+>>>>>>> 78cd9f9144f3de35f2691cb1301bcf8999d93082
 
 @app.route("/logout")
 def logout():

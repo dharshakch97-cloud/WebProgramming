@@ -83,24 +83,24 @@ def bookpage():
         return redirect("/register")
 
     isbn = "0380795272"
-    book  = db.query(Book).filter_by(isbn = isbn).first()
-    rating = db.query(Review).filter_by(title=book.title).all()
+    book  = db.query(Book).filter_by(isbn=isbn).first()
+    rating = db.query(Review).filter_by(isbn=isbn).all()
 
     Uname = session.get("user_name")
     if request.method == "POST":
-        title = book.title
-        rating1 = request.form.get("rate")
+        rating = request.form.get("rate")
         review = request.form.get("comment")
-        temp = Review(Uname,title,rating1,review)
+        temp = Review(Uname, isbn, rating, review)
         try:
             db.add(temp)
             db.commit() 
-            ratin = db.query(Review).filter_by(title=book.title).all()
-            return render_template("review.html",data = book, name = Uname,rating = ratin)
+            rate = db.query(Review).filter_by(isbn=isbn).all()
+            return render_template("review.html", data = book, name = Uname, rating = rate)
         except:
             db.rollback()
             return render_template("review.html", data = book, name = "User already given review", rating = rating)
     else:
         return render_template("review.html",data = book, name = Uname ,rating = rating)
+
 if __name__ == "__main__":
     app.run(debug=True)

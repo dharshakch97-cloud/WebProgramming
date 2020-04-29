@@ -88,8 +88,14 @@ def search():
                 print(query)
             elif choice == "title":
                 query = db.query(Book).filter(Book.title.like(f'%{word}%'))
-            else:
+            # else:
+            #     query = db.query(Book).filter(Book.author.like(f'%{word}%'))
+            elif choice == "Author":
                 query = db.query(Book).filter(Book.author.like(f'%{word}%'))
+            else:
+                query = db.query(Book).filter(Book.year==word)
+                
+
         
             isbn = []
             title=[]
@@ -110,6 +116,28 @@ def search():
         
     elif request.method == "GET":
         return render_template("landingpage.html")
+
+# @app.route("/api/search",methods = ["POST"])
+# def api_search():
+#     if request.is_json:
+#         # words = request.get_json()
+#         # choice =  request.get_json()
+#         if choice in ["isbn","author","title"]
+#             results = search()
+#             if results is not None:
+#                 l = []
+#                 results_json = {}
+#                 for result in results:
+#                     d = {}
+#                     d["isbn"] = result.isbn
+#                     l.append(d)
+#                 results_json['results'] = 1
+#                 return jsonify(results_json)  
+#         else:
+#             return (jsonify("Error": "Invalid key value"}),400)     
+
+
+
 
 
 

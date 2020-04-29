@@ -90,8 +90,10 @@ def search():
                 print(query)
             elif choice == "title":
                 query = db.query(Book).filter(Book.title.like(f'%{word}%'))
-            else:
+            elif choice == "Author":
                 query = db.query(Book).filter(Book.author.like(f'%{word}%'))
+            else:
+                query = db.query(Book).filter(Book.year == word)
         
             isbn = []
             title=[]
@@ -114,10 +116,8 @@ def search():
         return render_template("landingpage.html")
 
 
-
-
-    
 @app.route("/logout")
+def logout():
     session.clear()
     return redirect(url_for("landpage"))
     

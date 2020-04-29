@@ -2,176 +2,143 @@
 <html>
     <head>
         <title>{{ user }} home page</title>
-<<<<<<< HEAD
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='userhome-style.css') }}"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    </head>
-    <body style="text-align: center;">
-        <nav class="navbar navbar-light bg-light justify-content-between mystyle">
-            <a class="navbar-brand">
-                <img src="{{ url_for('static', filename='goodreads.jpeg') }}" width="90" height="50" class="d-inline-block align-top" alt="">
-            </a>
-            <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button formaction = "/search" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </nav>
-        <br><br>
-        <h1>Welcom To Goodreads!!</h1>
-        <br><br><br>
-        <p style="text-align: center;"> Welcome {{ user }}</p>
-        <form class="button" action="/logout">
-            <button type="submit" class="btn btn-primary" style = "float:inline-end">Logout</button>
-        </form>
-    </body>
-</html>
-=======
-        <!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='userhome-style.css') }}"/> -->
-        
-        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
         <style>
-            /* body {
+            body {
                 background-color: tan;
-            } */
-                h1 {
-                    color:black;
-                    text-align:center;
-                    text-shadow: black;
-                }
+            }
+            h1 {
+                color:black;
+                text-align:center;
+                text-shadow: black;
+            }
             h3{
                 color:black;
                 font-style: italic;
             }    
 
-           .button {
+            .button {
                 background-color : palegreen;
                 color: white;
                 padding: 10px 20px;
                 border-radius: 4px;
                 border-color: palegreen;
                 position: fixed;
-                bottom: -20px;
+                top: -20px;
                 right: 10px;
                 margin:30px;
-           }     
-    .button:hover{
-        background-color: yellowgreen;
-    }       
+            }     
+            .button:hover{
+                background-color: yellowgreen;
+            }       
 
-    /* a.navbar-brand {
-        background-color: yellowgreen;
+            a.navbar-brand {
+                background-color: yellowgreen;
+            }
+            a{
+                float:right;
+                margin: auto;
+                width: 50%;
+                border: 3px solid green;
+                padding: 10px;
+            }
+            
+            .btn {
+                width:100px;
 
-    } */
-    a{
-        /* float:right; */
-        margin: auto;
-        width: 50%;
-        /* border: 3px solid green; */
-        padding: 10px;
-    }
-    
-    .btn {
-        width:100px;
+            }
+            input[type=search]{
+                width:70%;
+                background-color: powderblue;
+                outline-width: inherit;
+                column-width: auto;
+                width:700px;
+                height:30px;
+            }
+            .form-control{
+                width:170px;
+            }
+            
 
-    }
-    input[type=search]{
-        width:70%;
-        background-color: powderblue;
-        outline-width: inherit;
-        column-width: auto;
-        width:700px;
-        height:30px;
-    }
-    .form-control{
-        width:170px;
-    }
-    
-
-    table {
+            table {
                 border:2px;
                 border-collapse: collapse;
-                /* background-color: black; */
+                background-color: black;
                 padding:15px;
             }
+            
             body {
                 background-color:orange;
             }
+            
             th,td {
                 padding:10px;
                 color:black;
                 font-size: large;
             }
+            
             th{
                 background-color: paleturquoise;
             }
+                    
             a{
                 color:white;
             }
-    </style>
+        </style>
     </head>
     <body style="text-align: center;">
         <nav class="navbar navbar-light bg-light justify-content-between mystyle">
             <a class="navbar-brand"><img src="{{ url_for('static', filename='goodreads.jpeg') }}" ></a>
-         </nav>
+        </nav>
         <br><br>
         <h1>Welcom To Goodreads!!</h1>
-        
         <form class="form-inline" method = "POST" style = "float: center;">
-
             <label for="choice"><h3>Choose a search type:</h3></label>
             <select class ="choice" id="choice" name="choice">
-            <option class ="choice" value="isbn">isbn</option>
-            <option class ="choice" value="title">Title</option>
-            <option class ="choice" value="author">Author</option>
+                <option class ="choice" value="isbn">isbn</option>
+                <option class ="choice" value="title">Title</option>
+                <option class ="choice" value="author">Author</option>
+                <option class ="choice" value="author">Author</option>
             </select>
             <br><br>
             <input class="form-control mr-sm-2"  name = "searchbox" type="search" placeholder="Search" aria-label="Search">
             <button formaction = "/search" style = "float:inline-start;" class="btn btn-outline-success my-2 my-sm-0" type="submit" id = "#sear">Search</button> <br><br><br><br>
             <br><br>
 
-       <div class="button">
-            <button formaction = "/logout" formmethod = "GET" name = "logout" type="submit" class="btn btn-primary" style = "float:inline-end">Logout</button>
+            <div class="button">
+                <button formaction = "/logout" formmethod = "GET" name = "logout" type="submit" class="btn btn-primary" style = "float:inline-end">Logout</button>
+            </div>
+        </form>
+        <img src="{{ url_for('static', filename='gr1.jpg') }}" ></a>
+        <!-- <h3>{{text}}</h3> -->
+        <h4>Refresh your mind by reading books!</h4>
+        <div>
+            {% if text %}
+            <h3>{{text}}</h3>
+            {% endif %} {% if isbn|length> 0 %}
+            <h1 style = "text-align: center;">Results of search</h1><br>
+            <table class="table" style="width: 100%;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>id</th>
+                        <th>isbn</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(0, length) %}
+                    <tr>
+                        <th scope="row" style = "color:black;">{{  i+1 }}</th>
+                        <td><a href="#">{{ isbn[i] }}</a></td>
+                        <td><a href='#'>{{ title[i] }}</a></td>
+                        <td>{{ author[i] }}</td>
+                        <td>{{ year[i] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
         </div>
-    </form>
-    <img src="{{ url_for('static', filename='gr.jpg') }}" ></a>
-    <!-- <h3>{{text}}</h3> -->
-    
-    <h4>Refresh your mind by reading books!</h4>
-
- <div>
-     {% if text %}
-     <h3>{{text}}</h3>
-     {% endif %} {% if isbn|length> 0 %}
-
-    <h1 style = "text-align: center;">Results of search</h1><br>
-    <table class="table" style="width: 100%;">
-        <thead class="thead-dark">
-            <tr>
-                <th>id</th>
-                <th>isbn</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Year</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in range(0, length) %}
-              <tr>
-                  <th scope="row" style = "color:black;">{{  i+1 }}</th>
-                  <td><a href="#">{{ isbn[i] }}</a></td>
-                  <td><a href='#'>{{ title[i] }}</a></td>
-                  <td>{{ author[i] }}</td>
-                  <td>{{ year[i] }}</td>
-              </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-    </div>
-
-     </body>
+    </body>
 </html>
-
-
-
->>>>>>> 78cd9f9144f3de35f2691cb1301bcf8999d93082

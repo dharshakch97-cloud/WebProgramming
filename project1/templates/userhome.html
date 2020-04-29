@@ -26,7 +26,7 @@
                 border-radius: 4px;
                 border-color: palegreen;
                 position: fixed;
-                bottom: -20px;
+                top: -20px;
                 right: 10px;
                 margin:30px;
            }     
@@ -76,6 +76,8 @@
                 padding:10px;
                 color:black;
                 font-size: large;
+                border:2px;
+                border-color: black;
             }
             th{
                 background-color: paleturquoise;
@@ -90,7 +92,7 @@
             <a class="navbar-brand"><img src="{{ url_for('static', filename='goodreads.jpeg') }}" ></a>
          </nav>
         <br><br>
-        <h1>Welcom To Goodreads!!</h1>
+        <h1>Welcom To Goodreads!! {{session["user_name"]}}</h1>
         
         <form class="form-inline" method = "POST" style = "float: center;">
 
@@ -99,6 +101,7 @@
             <option class ="choice" value="isbn">isbn</option>
             <option class ="choice" value="title">Title</option>
             <option class ="choice" value="author">Author</option>
+            <option class ="choice" value="year">year</option>
             </select>
             <br><br>
             <input class="form-control mr-sm-2"  name = "searchbox" type="search" placeholder="Search" aria-label="Search">
@@ -146,6 +149,7 @@
     </div>
 
      </body>
+     
 </html>
 
 

@@ -1,31 +1,19 @@
 import os
-<<<<<<< HEAD
-<<<<<<< HEAD
 import requests
-=======
 
->>>>>>> master
 from flask import Flask, session, render_template, request, url_for, redirect
-=======
 import requests
 from flask import Flask, session, render_template, request, url_for, redirect, json
->>>>>>> master
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import models
 from models import Base, Users
-<<<<<<< HEAD
-<<<<<<< HEAD
 from bookmodel import Book
 from ratingmodel import Review
-=======
->>>>>>> master
-=======
 from bookmodel import Book
 import bookmodel
 from bookmodel import *
->>>>>>> master
 
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
 # Check for environment variable
@@ -180,12 +168,12 @@ def bookpage():
             db.add(temp)
             db.commit() 
             rate = db.query(Review).filter_by(isbn=isbn).all()
-            return render_template("review.html", data = book, name = Uname, rating = rate)
+            return render_template("bookpage.html", data = book, name = Uname, rating = rate)
         except:
             db.rollback()
-            return render_template("review.html", data = book, name = "User already given review", rating = rating)
+            return render_template("bookpage.html", data = book, name = "User already given review", rating = rating)
     else:
-        return render_template("review.html",data = book, name = Uname ,rating = rating)
+        return render_template("bookpage.html",data = book, name = Uname ,rating = rating)
 
 if __name__ == "__main__":
     app.run(debug=True)

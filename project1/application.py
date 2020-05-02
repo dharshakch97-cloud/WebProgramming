@@ -1,14 +1,31 @@
 import os
+<<<<<<< HEAD
+<<<<<<< HEAD
+import requests
+=======
+
+>>>>>>> master
+from flask import Flask, session, render_template, request, url_for, redirect
+=======
 import requests
 from flask import Flask, session, render_template, request, url_for, redirect, json
+>>>>>>> master
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import models
 from models import Base, Users
+<<<<<<< HEAD
+<<<<<<< HEAD
+from bookmodel import Book
+from ratingmodel import Review
+=======
+>>>>>>> master
+=======
 from bookmodel import Book
 import bookmodel
 from bookmodel import *
+>>>>>>> master
 
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
 # Check for environment variable
@@ -144,6 +161,31 @@ def bookreads_api(isbn):
         response["img"] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
         return response
 
+
+@app.route("/bookpage", methods =['GET', 'POST'])
+def bookpage():
+    if session.get("user_name") is None:
+        return redirect("/register")
+
+    isbn = "0380795272"
+    book  = db.query(Book).filter_by(isbn=isbn).first()
+    rating = db.query(Review).filter_by(isbn=isbn).all()
+
+    Uname = session.get("user_name")
+    if request.method == "POST":
+        rating = request.form.get("rate")
+        review = request.form.get("comment")
+        temp = Review(Uname, isbn, rating, review)
+        try:
+            db.add(temp)
+            db.commit() 
+            rate = db.query(Review).filter_by(isbn=isbn).all()
+            return render_template("review.html", data = book, name = Uname, rating = rate)
+        except:
+            db.rollback()
+            return render_template("review.html", data = book, name = "User already given review", rating = rating)
+    else:
+        return render_template("review.html",data = book, name = Uname ,rating = rating)
 
 if __name__ == "__main__":
     app.run(debug=True)

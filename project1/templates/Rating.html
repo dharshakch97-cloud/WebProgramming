@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> User Review </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <style>
+        h1 {
+                text-shadow: 2px 2px rgb(90, 3, 3);
+        }
+        
+  
+  
+    </style>
+</head>
+<body>
+    <style>
+        body {
+          background-image: url('./static/STARS.jpg');
+          background-repeat: no-repeat;
+          background-attachment: fixed; 
+          background-size: cover;
+         
+        }
+        </style>
+
+    <h1 style = "color:white; text-align:center; font-family:Heavitas"> USER REVIEW </h1>
+    <form action="{{ url_for('rev') }}" method="POST">
+        <br><br>
+
+        <div class="form-group" >
+            <label for="UserName" style="color:white;" >UserName</label>
+            <input type="UserName" class="form-control" placeholder="UserName" required name="UserName">
+        </div><br>
+
+        <div class="form-group">
+            <label for="Book_ID" style="color:white;" > Book_ID </label>
+           <input type="Book_ID" class="form-control" placeholder="Book_ID" required name="Book_ID">
+        </div><br>
+
+    <h4 style="color:white;"> Rate Here: </h4>
+    
+    
+    <div align="left" style="color:white;">
+        <i class="fab fa-bitcoin fa-3x" data-index="0"></i>
+        <i class="fab fa-bitcoin fa-3x" data-index="1"></i>
+        <i class="fab fa-bitcoin fa-3x" data-index="2"></i>
+        <i class="fab fa-bitcoin fa-3x"  data-index="3"></i>
+        <i class="fab fa-bitcoin fa-3x" data-index="4"></i>
+        <br><br>
+        <?php echo round($avg,2) ?>
+    </div><br> 
+
+
+    <label for="Feedback" style="color:white"> Feedback: </label>
+    <input type="Feedback" class="form-control" placeholder= "Feedback" required name= "Feedback" >
+    <button class="btn btn-primary btn-block" type="submit" style="color:rgb(32, 2, 2); background:rgb(255, 166, 0); ">SUBMIT</button>
+
+</form>
+
+<h2 style="color:white;"> Reviews: </h2>
+
+    <table>
+        <th>{{"User_ID"}}</th>
+        <th>{{"Book_ID"}}</th>
+        <th>{{"Rating"}}</th>
+        <th>{{"Feedback"}}</th>
+        {% for item in data %}
+        <tr>
+             <td> {{item.User_ID}}</td>
+             <td> {{item.Book_ID}}</td>
+             <td> {{item.Rating}}</td>
+             <td> {{item.Feedback}}</td>
+             </tr>
+        </tr> 
+      {% endfor %} 
+      </table>
+
+
+
+    <script src="http://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <script>
+        var Rating = -1, uID = 0;
+
+        $(document).ready(function () {
+            resetStarColors();
+
+            if (localStorage.getItem('Rating') != null) {
+                setStars(parseInt(localStorage.getItem('Rating')));
+                uID = localStorage.getItem('uID');
+            }
+
+            $('.fa-bitcoin').on('click', function () {
+               Rating = parseInt($(this).data('index'));
+               print(Rating)
+               localStorage.setItem('Rating', Rating);
+               saveToTheDB();
+            });
+
+            $('.fa-bitcoin').mouseover(function () {
+                resetStarColors();
+                var currentIndex = parseInt($(this).data('index'));
+                setStars(currentIndex);
+            });
+
+            $('.fa-bitcoin').mouseleave(function () {
+                resetStarColors();
+
+                if (Rating != -1)
+                    setStars(Rating);
+            });
+        });
+
+        function saveToTheDB() {
+            $.ajax({
+               url: "Review.html",
+               method: "POST",
+               dataType: 'json',
+               data: {
+                   save: 1,
+                   uID: uID,
+                   Rating: Rating
+               }, success: function (r) {
+                    uID = r.id;
+                    localStorage.setItem('uID', uID);
+               }
+            });
+        }
+
+        function setStars(max) {
+            for (var i=0; i <= max; i++)
+                $('.fa-bitcoin:eq('+i+')').css('color', 'orange');
+                
+        }
+
+        function resetStarColors() {
+            $('.fa-bitcoin').css('color', 'white');
+        }
+    </script>
+
+
+
+</body>
+</html>

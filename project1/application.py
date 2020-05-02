@@ -1,6 +1,6 @@
 import os
-import requests
-from flask import Flask, session, render_template, request, url_for, redirect, json
+import requests,logging
+from flask import Flask, session, render_template, request, url_for, redirect, json,jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -114,6 +114,62 @@ def search():
         
     elif request.method == "GET":
         return render_template("landingpage.html")
+
+@app.route("/api/search/", methods=["POST"])
+def api_search():
+    if request.is_json:
+        print("working")
+        content = request.get_json()
+        if 'choice' in content and 'word' in content:
+            # choose = content['choice']
+            qtype = content['choice']
+            tosearch = content['word']
+            if qtype == "isbn":
+                query = db.query(Book).filter(Book.isbn.like(f'%{tosearch}%'))
+            elif qtype == "title":
+                query = db.query(Book).filter(Book.title.like(f'%{tosearch}%'))
+            elif qtype == "author":
+                query = db.query(Book).filter(Book.author.like(f'%{tosearch}%'))    
+            else:
+                query = db.query(Book).filter(Book.year == tosearch) 
+            if query is not None:
+                lst = []
+                books = {}
+                for row in query:
+                    dict={}
+                    dict["isbn"] = row.isbn
+                    dict["title"] = row.title
+                    dict["author"] = row.author
+                    dict["year"] = row.year
+                    lst.append(dict)
+                books[tosearch] = lst
+                
+                return jsonify(books)
+                # return jsonify(lst)
+            else:
+                logging.debug("invalid key value error")
+                return(jsonify({"Error": "No matches found"}))
+        else:
+            logging.debug("invalid key value error")
+            return(jsonify({"Error": "Invalid content data"}))
+    else:
+        print("not working")
+        return(jsonify({"Error": "Invalid JSON data"}))  
+      
+
+
+#
+#             if query is not None:
+#                 for row in query:
+#                     dicts = {}
+#                     dicts["isbn"] = row.isbn
+#                     dicts["title"] = row.title
+#                     dicts["author"] = row.author
+#                     dicts["year"] = row.year
+#                 return jsonify(dicts)   
+#            
+                   
+
 
 
 @app.route("/logout")

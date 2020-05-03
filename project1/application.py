@@ -128,11 +128,15 @@ def logout():
     
 @app.route("/book/<string:isbn>", methods = ["GET"])
 def get_book(isbn):
+    if session.get("user_name") is None:
+        return redirect("/login")
+    
+    reviews = db.query(Review).filter_by(isbn=isbn).all()
     response = bookreads_api(isbn)
     return render_template("bookpage.html", 
                 name=response["name"], author=response["author"], ISBN = response["isbn"], 
                 year=response["year"], rating=response["average_rating"], count=response["reviews_count"], 
-                image=response["img"])
+                image=response["img"], reviews=reviews)
 
 def bookreads_api(isbn):
     query = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "GeJUHhlmNf7PYbzeKEnsuw", "isbns": isbn})
@@ -150,30 +154,22 @@ def bookreads_api(isbn):
         return response
 
 
-@app.route("/bookpage", methods =['GET', 'POST'])
-def bookpage():
+@app.route("/bookpage/<string:isbn>", methods =['GET', 'POST'])
+def bookpage(isbn):
     if session.get("user_name") is None:
-        return redirect("/register")
+        return redirect("/login")
 
-    isbn = "0380795272"
-    book  = db.query(Book).filter_by(isbn=isbn).first()
-    rating = db.query(Review).filter_by(isbn=isbn).all()
-
-    Uname = session.get("user_name")
     if request.method == "POST":
         rating = request.form.get("rate")
         review = request.form.get("comment")
-        temp = Review(Uname, isbn, rating, review)
+        rate = Review(session.get("user_name"), isbn, rating, review)
         try:
-            db.add(temp)
-            db.commit() 
-            rate = db.query(Review).filter_by(isbn=isbn).all()
-            return render_template("bookpage.html", data = book, name = Uname, rating = rate)
+            db.add(rate)
+            db.commit()
+            return redirect(url_for('get_book', isbn=isbn))
         except:
             db.rollback()
-            return render_template("bookpage.html", data = book, name = "User already given review", rating = rating)
-    else:
-        return render_template("bookpage.html",data = book, name = Uname ,rating = rating)
-
+            return redirect(url_for('get_book', isbn=isbn))
+    return redirect(url_for('get_book', isbn=isbn))
 if __name__ == "__main__":
     app.run(debug=True)

@@ -160,7 +160,7 @@
             </div>
         </div>
         </br></br>
-        <form class="in" action="{{ url_for('bookpage') }}" method="post" id="usrform">    
+        <form class="in" action="{{ url_for('bookpage', isbn=ISBN) }}" method="POST" id="usrform">    
             <div class="rate" >
                 <input type="radio" id="star5" name="rate" value="5" style="text-align: center;"/>
                 <label for="star5" title="text">5 stars</label>
@@ -182,7 +182,7 @@
             </br></br><button type="submit">submit</button>
             </div>
         </form>
-        {% for rate in rating %}
+        {% for rate in reviews %}
             <div class = "review">  
                 <ul>
                     <li>username : {{rate.username}}</li>

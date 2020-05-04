@@ -2,6 +2,39 @@
 <html>
     <head>
         <title>{{ user }} home page</title>
+        <script>
+          
+            document.addEventListener("DOMContentLoaded",()=> {
+                document.getElementById("form").onsubmit = ()=> {
+                    const request = new XMLHttpRequest();
+                    const search = document.getElementById("word").value;
+                    const option = document.getElementById("choice").value;
+                    request.open("POST","/api/search/");
+                    request.onload = ()=> {
+                        const data = JSON.parse(request.responseText)
+                        // alert(data.results)
+                        if(data.success) {
+                            
+                            if(data.results.length > 0 ) {
+                                
+                                var data_in =""
+                                data.results.forEach(result => {
+                                    // alert("hey " + result["title"] + "hey")
+                                    data_in += "<tr> <td> <a href='/book/" + result["isbn"] + "'>" + result["isbn"] + "</a> </td> <td>" + result["title"] + "</td> <td>" + result["author"] + "</td> <td>" + result["year"] + "</td> </tr>";
+                            });
+                            // alert(data_in)
+                            document.getElementById("tab").innerHTML = data_in;
+
+                            }
+                        }
+                    }
+                    request.send(JSON.stringify({"search": search,"option":option}))
+                    return false;
+
+
+                }
+            })
+        </script>
         <style>
           
             h1 {
@@ -87,10 +120,11 @@
         <body style="text-align: center;">
             <nav class="navbar navbar-light bg-light justify-content-between mystyle">
                 <a class="navbar-brand"><img src="{{ url_for('static', filename='goodreads.jpeg') }}" ></a>
+                
             </nav>
             <br><br>
             <h1>Welcom To Goodreads!! {{session["user_name"]}}</h1>
-            <form class="form-inline" method = "POST" style = "float: center;">
+            <form class="form-inline" id = "form" method = "POST" style = "float: center;">
                 <label for="choice"><h3>Choose a search type:</h3></label>
                 <select class ="choice" id="choice" name="choice">
                 <option class ="choice" value="isbn">isbn</option>
@@ -99,43 +133,35 @@
                 <option class ="choice" value="year">year</option>
                 </select>
                 <br><br>
-                <input class="form-control mr-sm-2"  name = "searchbox" type="search" placeholder="Search" aria-label="Search">
-                <button formaction = "/search" style = "float:inline-start;" class="btn btn-outline-success my-2 my-sm-0" type="submit" id = "#sear">Search</button> <br><br><br><br>
+                <input class="form-control mr-sm-2" id = "word" name = "searchbox" type="search" placeholder="Search" aria-label="Search">
+                <button  style = "float:inline-start;" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> <br><br><br><br> 
+                
+                
                 <br><br>
                 <div class="button">
                     <button formaction = "/logout" formmethod = "GET" name = "logout" type="submit" class="btn btn-primary" style = "float:inline-end">Logout</button>
                 </div>
             </form>
+           
             <img src="{{ url_for('static', filename='read.jpg') }}" ></a>
-            <h4>Refresh your mind by reading books!</h4>
+            
             <div>
-                {% if text %}
-                <h3>{{text}}</h3>
-                {% endif %} {% if isbn|length> 0 %}
                 <h1 style = "text-align: center;">Results of search</h1><br>
                 <table class="table" style="width: 100%;">
-                    <thead class="thead-dark">
+                    
                         <tr>
-                            <th>id</th>
+                            
                             <th>isbn</th>
                             <th>Title</th>
                             <th>Author</th>
                             <th>Year</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for i in range(0, length) %}
-                        <tr>
-                            <th scope="row" style = "color:black;">{{  i+1 }}</th>
-                            <td><a href="{{ url_for('get_book', isbn=isbn[i]) }}">{{ isbn[i] }}</a></td>
-                            <td><a href='#'>{{ title[i] }}</a></td>
-                            <td>{{ author[i] }}</td>
-                            <td>{{ year[i] }}</td>
-                        </tr>
-                        {% endfor %}
+                    
+                    <tbody id = "tab">
+                        
                     </tbody>
                 </table>
-                {% endif %}
+                
             </div>
      </body>
 </html>

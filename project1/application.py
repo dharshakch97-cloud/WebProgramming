@@ -29,7 +29,8 @@ Base.query = db.query_property()
 def landpage():
     if (request.method == 'GET'):
         if session.get("user_name") is not None:
-            return render_template("userhome.html", user=session["user_name"])
+            # return render_template("userhome.html", user=session["user_name"])
+            return redirect(url_for("search"))
         return render_template("landingpage.html")
 
 @app.route("/login")
@@ -71,103 +72,81 @@ def auth():
     user = db.query(Users).filter_by(email=email)
     if (user[0].email == email and user[0].password == password):
         session["user_name"] = user[0].username
-        return render_template("userhome.html", user=user[0].username)
+        # return render_template("userhome.html", user=user[0].username)
+        return redirect(url_for("search"))
         # return render_template("userhome.html", user=session["user_name"])
     return render_template("login.html", text="email or password is incorrect")
 
 #         return render_template("home.html",text = "No matches found")        
-@app.route("/search", methods=["GET","POST"])
+@app.route("/search", methods=["GET"])
 def search():
-    text = ""
+    # text = ""
     
-    if request.method == "POST":
-        word = request.form['searchbox']
-        choice = request.form['choice']
-        if len(word) > 0:
-            if choice == "isbn":
-                print(word)
-                query = db.query(Book).filter(Book.isbn.like(f'%{word}%'))
-                print(query)
-            elif choice == "title":
-                query = db.query(Book).filter(Book.title.like(f'%{word}%'))
-            elif choice == "Author":
-                query = db.query(Book).filter(Book.author.like(f'%{word}%'))
-            else:
-                query = db.query(Book).filter(Book.year == word)
+    # if request.method == "POST":
+    #     word = request.form['searchbox']
+    #     choice = request.form['choice']
+    #     if len(word) > 0:
+    #         if choice == "isbn":
+    #             print(word)
+    #             query = db.query(Book).filter(Book.isbn.like(f'%{word}%'))
+    #             print(query)
+    #         elif choice == "title":
+    #             query = db.query(Book).filter(Book.title.like(f'%{word}%'))
+    #         elif choice == "Author":
+    #             query = db.query(Book).filter(Book.author.like(f'%{word}%'))
+    #         else:
+    #             query = db.query(Book).filter(Book.year == word)
         
-            isbn = []
-            title=[]
-            author = []
-            year = []
-            for row in query:
-                isbn.append(row.isbn)
-                title.append(row.title)
-                author.append(row.author)
-                year.append(row.year)
+    #         isbn = []
+    #         title=[]
+    #         author = []
+    #         year = []
+    #         for row in query:
+    #             isbn.append(row.isbn)
+    #             title.append(row.title)
+    #             author.append(row.author)
+    #             year.append(row.year)
 
         
-            if len(isbn)==0:
-                return render_template("userhome.html",text = "No Matches Found")    
-            return render_template("userhome.html", isbn=isbn,title=title,author=author,year=year,length=len(isbn))
-        else:
-            return render_template("userhome.html",text = "Please provide valid input")    
+    #         if len(isbn)==0:
+    #             return render_template("userhome.html",text = "No Matches Found")    
+    #         return render_template("userhome.html", isbn=isbn,title=title,author=author,year=year,length=len(isbn))
+    #     else:
+    #         return render_template("userhome.html",text = "Please provide valid input")    
         
-    elif request.method == "GET":
-        return render_template("landingpage.html")
+    if request.method == "GET":
+        return render_template("userhome.html")
 
 @app.route("/api/search/", methods=["POST"])
 def api_search():
-    if request.is_json:
+    if request.method == "POST":
         print("working")
-        content = request.get_json()
-        if 'choice' in content and 'word' in content:
-            # choose = content['choice']
-            qtype = content['choice']
-            tosearch = content['word']
-            if qtype == "isbn":
-                query = db.query(Book).filter(Book.isbn.like(f'%{tosearch}%'))
-            elif qtype == "title":
-                query = db.query(Book).filter(Book.title.like(f'%{tosearch}%'))
-            elif qtype == "author":
-                query = db.query(Book).filter(Book.author.like(f'%{tosearch}%'))    
-            else:
-                query = db.query(Book).filter(Book.year == tosearch) 
-            if query is not None:
-                lst = []
-                books = {}
-                for row in query:
-                    dict={}
-                    dict["isbn"] = row.isbn
-                    dict["title"] = row.title
-                    dict["author"] = row.author
-                    dict["year"] = row.year
-                    lst.append(dict)
-                books[tosearch] = lst
-                
-                return jsonify(books)
-                # return jsonify(lst)
-            else:
-                logging.debug("invalid key value error")
-                return(jsonify({"Error": "No matches found"}))
+        content = request.get_json(force = True)
+        qtype = content['option']
+        tosearch = content['search']
+        if qtype == "isbn":
+            query = db.query(Book).filter(Book.isbn.like(f'%{tosearch}%'))
+        elif qtype == "title":
+            query = db.query(Book).filter(Book.title.like(f'%{tosearch}%'))
+        elif qtype == "author":
+            query = db.query(Book).filter(Book.author.like(f'%{tosearch}%'))    
         else:
-            logging.debug("invalid key value error")
-            return(jsonify({"Error": "Invalid content data"}))
-    else:
-        print("not working")
-        return(jsonify({"Error": "Invalid JSON data"}))  
+            query = db.query(Book).filter(Book.year == tosearch) 
+        if query is not None:
+            lst = []
+            
+            for row in query:
+                dict={"isbn":row.isbn,"title":row.title,"author":row.author,"year":row.year}
+                lst.append(dict)
+            print(lst)
+            
+            
+            
+            return jsonify({"success":True,"results":lst})
+             
       
 
 
-#
-#             if query is not None:
-#                 for row in query:
-#                     dicts = {}
-#                     dicts["isbn"] = row.isbn
-#                     dicts["title"] = row.title
-#                     dicts["author"] = row.author
-#                     dicts["year"] = row.year
-#                 return jsonify(dicts)   
-#            
                    
 
 
